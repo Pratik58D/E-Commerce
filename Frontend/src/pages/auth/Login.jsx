@@ -27,7 +27,7 @@ const Register = () => {
       </div>
       <Form 
       formControls={loginFormControls} 
-      buttonText={"Sign Up"}
+      buttonText={"Log In"}
       formData={formData}
       setFormData={setFormData}
       onSubmit={onSubmit}

@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from 'cors';
 import cookieParser from "cookie-parser";
+import connectDb from "./src/config/db.js";
+import authRouter from "./src/routes/auth.route.js";
 
 const app= express()
 dotenv.config();
@@ -24,12 +26,10 @@ app.use(cookieParser());
 app.use(express.json());
 
 
-
-app.get("/",(req,res)=>{
-    res.send("yeap this is your website")
-})
+app.use("/api/auth",authRouter);
 
 
 app.listen(port , ()=>{
-    console.log(`server is running ${port}`)
+    console.log(`server is running ${port}`);
+    connectDb();
 })
