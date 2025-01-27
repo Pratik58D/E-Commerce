@@ -4,6 +4,7 @@ import { registerUser } from '@/store/auth-slice';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const intialState ={
   userName : "",
@@ -20,7 +21,14 @@ const Register = () => {
   const onSubmit= (e)=>{
     e.preventDefault();
     dispatch(registerUser(formData)).then((data)=>{
-      if(data?.payload?.success) navigate("/auth/login");
+      if(data?.payload?.success) {
+        navigate("/auth/login");
+        toast.success(data?.payload?.message);
+        setFormData(intialState) ;    
+       }else{
+        toast.error(data?.payload?.message);
+        setFormData(intialState);
+       }
     }); 
   }
 

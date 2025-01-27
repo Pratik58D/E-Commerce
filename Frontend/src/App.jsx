@@ -16,20 +16,26 @@ import Checkout from "./pages/shoppingView/Checkout";
 import Account from "./pages/shoppingView/Account";
 import CheckAuth from "./components/common/CheckAuth";
 import UnAuth from "./pages/Un-auth";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from "react-redux";
 
 const App = () => {
-  const isAuthenticated = false;
-  const user = null;
+
+  const {isAuth , user} = useSelector(state => state.auth);
 
   return (
     <>
+    <ToastContainer />
+    
       <div className="flex flex-col overflow-hidden bg-white">
+        
         <Routes>
           {/* Authentication route */}
           <Route
             path="/auth"
             element={
-              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <CheckAuth isAuthenticated={isAuth} user={user}>
                 <AuthLayout />
               </CheckAuth>
             }
@@ -41,7 +47,7 @@ const App = () => {
           <Route
             path="/admin"
             element={
-              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <CheckAuth isAuthenticated={isAuth} user={user}>
                 <AdminLayout />
               </CheckAuth>
             }
@@ -55,7 +61,7 @@ const App = () => {
           <Route
             path="/shop"
             element={
-              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <CheckAuth isAuthenticated={isAuth} user={user}>
                 <ShopLayout />
               </CheckAuth>
             }

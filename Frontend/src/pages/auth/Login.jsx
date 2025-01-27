@@ -1,19 +1,41 @@
 import Form from '@/components/common/Form';
 import { loginFormControls } from '@/config';
+import { loginUser } from '@/store/auth-slice';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const intialState ={
   email : "",
   password : "",
 }
 
-const onSubmit= ()=>{
-}
+
 
 const Register = () => {
+const dispatch = useDispatch();
+const navigate = useNavigate();
+
   const [formData,setFormData] =useState(intialState);
 
+  const onSubmit= (e)=>{
+    e.preventDefault();
+     dispatch(loginUser(formData)).then((data)=>{
+          if(data?.payload?.success) {
+            toast.success(data?.payload?.message);
+           if(data?.payload?.user?.role === "admin"){
+            navigate("/admin/dashboard");
+           }else{
+            navigate("/shop/home");
+           }
+            setFormData(intialState) ;    
+           }else{
+            toast.error(data?.payload?.message);
+            setFormData(intialState);
+           }
+        }); 
+  }
   return (
     <div className='mx-auto w-full max-w-md space-y-6'>
       <div className='text-center'>
