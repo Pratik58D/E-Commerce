@@ -11,15 +11,22 @@ export const register = async (req, res) => {
         .status(400)
         .json({ sucess: false, message: "Please fill all the fields" });
     }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid email format" });
     }
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     const newUser = new User({
       userName,
       email,
@@ -29,7 +36,7 @@ export const register = async (req, res) => {
     await newUser.save();
     res
       .status(201)
-      .json({ sucess: true, message: "User registered successfully" });
+      .json({ success: true, message: "User registered successfully" });
   } catch (error) {
     console.log("error in register", error.message);
     res.status(500).json({ sucess: false, message: "Server error" });
@@ -40,6 +47,56 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Please fill all the fields" });
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid email format" });
+    }
+    const matchedUser = await User.findOne({ email });
+    if (!matchedUser) {
+      return res.status(400).json({ success: false, message: "Invalid email" });
+    }
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      matchedUser.password
+    );
+    if (!isPasswordCorrect) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid password" });
+    }
+    const token = jwt.sign(
+      {
+        id: matchedUser._id,
+        role: matchedUser.role,
+        email: matchedUser.email,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: true,
+        secure: false,
+      })
+      .status(200)
+      .json({ 
+        success: true,
+        message: "User logged in successfully", 
+        token,
+        user :{
+          email: matchedUser.email,
+          role: matchedUser.role,
+          id: matchedUser._id
+        }
+       });
   } catch (error) {
     console.log("error in login controller", error.message);
     res.status(500).json({ sucess: false, message: "Server error" });
