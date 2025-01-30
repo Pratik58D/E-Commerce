@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AuthLayout from "./components/auth/layout";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/auth/Login";
@@ -16,20 +16,29 @@ import Checkout from "./pages/shoppingView/Checkout";
 import Account from "./pages/shoppingView/Account";
 import CheckAuth from "./components/common/CheckAuth";
 import UnAuth from "./pages/Un-auth";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "./store/auth-slice";
 
 const App = () => {
+  const { isAuth, user, isLoading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  const {isAuth , user} = useSelector(state => state.auth);
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
+  if (isLoading){
+    return <div className="text-center ">Loading...</div>
+  }
+  console.log("efg",isLoading, user)
 
   return (
     <>
-    <ToastContainer />
-    
+      <ToastContainer />
+
       <div className="flex flex-col overflow-hidden bg-white">
-        
         <Routes>
           {/* Authentication route */}
           <Route
@@ -71,9 +80,8 @@ const App = () => {
             <Route path="checkout" element={<Checkout />} />
             <Route path="account" element={<Account />} />
           </Route>
-          <Route path = "/unauth-page" element= {<UnAuth />} />
+          <Route path="/unauth-page" element={<UnAuth />} />
           <Route path="*" element={<NotFound />} />
-
         </Routes>
       </div>
     </>
