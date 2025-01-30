@@ -8,10 +8,10 @@ import authRouter from "./src/routes/auth.route.js";
 const app= express()
 dotenv.config();
 
-const port = process.env.PORT || 7000;
+const port = process.env.PORT || 7001;
 
 app.use(cors({
-    origin : "http://localhost:5173",
+    origin : "http://localhost:5174",
     methods : ['GET','POST','DELETE', "PUT"],
     allowedHeaders :[
         "Content-Type",

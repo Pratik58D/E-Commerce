@@ -83,7 +83,7 @@ export const login = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: true,
+        sameSite: "strict",
         secure: false,
       })
       .status(200)
@@ -107,6 +107,8 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    res.clearCookie("token");
+    res.status(200).json({ success: true, message: "User logged out sucessfully"});    
   } catch (error) {
     console.log("error in logout controller", error.message);
     res.status(500).json({ sucess: false, message: "Server error" });
@@ -115,8 +117,14 @@ export const logout = async (req, res) => {
 
 //auth middleware
 
-export const Auth = async (req, res) => {
+export const checkAuth = async (req, res) => {
   try {
+    const user = req.user;
+    res.status(200).json({
+      success: true,
+      message: "User is authenticated",
+      user,
+    })
   } catch (error) {
     console.log("error in auth controller", error.message);
     res.status(500).json({ sucess: false, message: "Server error" });
