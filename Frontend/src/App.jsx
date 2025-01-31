@@ -21,6 +21,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
 
+import { Skeleton } from "@/components/ui/skeleton"
+
+
 const App = () => {
   const { isAuth, user, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -30,9 +33,9 @@ const App = () => {
   }, [dispatch]);
 
   if (isLoading){
-    return <div className="text-center ">Loading...</div>
+    return <Skeleton className="w-[full] h-[full] bg-black " />
   }
-  console.log("efg",isLoading, user)
+
 
   return (
     <>
