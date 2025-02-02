@@ -19,7 +19,7 @@ const Form = ({
   buttonText,
 }) => {
   return (
-    <form onSubmit={onSubmit} >
+    <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-3">
         {formControls.map((formControl) => (
           <div className="flex flex-col gap-1" key={formControl.name}>
@@ -51,15 +51,16 @@ const Form = ({
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={formControl.placeHolder} />
+                  <SelectValue placeholder={formControl.label} />
                 </SelectTrigger>
                 <SelectContent>
                   {formControl.options &&
                     formControl.options.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
+                      <SelectItem key={option.id} value={option.id}>
                         {option.label}
                       </SelectItem>
                     ))}
+                  
                 </SelectContent>
               </Select>
             )}
