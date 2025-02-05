@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 import connectDb from "./src/config/db.js";
 import authRouter from "./src/routes/auth.route.js";
+import adminProductRouter from "./src/routes/product.route.js"
 
 const app= express()
 dotenv.config();
@@ -27,6 +28,7 @@ app.use(express.json());
 
 
 app.use("/api/auth",authRouter);
+app.use("/api/admin/product",adminProductRouter)
 
 
 app.listen(port , ()=>{
