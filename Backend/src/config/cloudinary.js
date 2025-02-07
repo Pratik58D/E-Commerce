@@ -18,6 +18,8 @@ async function ImageUpload(file) {
   return result;
 }
 
+//multer handling
+
 // immediately process or upload files
 const storage = new multer.memoryStorage();
 //upload becomes middleware for handling file uploads in the routes.
