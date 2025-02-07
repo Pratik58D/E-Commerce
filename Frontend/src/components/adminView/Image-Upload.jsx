@@ -4,12 +4,15 @@ import { Label } from "../ui/label";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { Skeleton } from "../ui/skeleton";
 
 const ImageUpload = ({
   imageFile,
   setImageFile,
   uploadedImageUrl,
   setUploadedImageUrl,
+  imageLoading,
+  setImageLoading,
 }) => {
   const inputRef = useRef(null);
 
@@ -41,6 +44,7 @@ const ImageUpload = ({
 
   const uploadImageToCloudinary = async () => {
     try {
+      setImageLoading(true);
       const data = new FormData();
       data.append("my_file", imageFile);
       const response = await axios.post(
@@ -52,9 +56,10 @@ const ImageUpload = ({
           },
         }
       );
-
-      console.log(response.data);
-      if (response) setUploadedImageUrl(response.data);
+      // console.log(response.data);
+      if (response) setUploadedImageUrl(response.data?.imageUrl);
+      console.log(uploadedImageUrl);
+      setImageLoading(false);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -87,6 +92,9 @@ const ImageUpload = ({
             <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
             <span>Upload the image.</span>
           </Label>
+        ) : // imaging loading
+        imageLoading ? (
+          <Skeleton className="h-10 bg-gray-500" />
         ) : (
           <div className="flex items-center justify-between">
             <div className="flex items-center">
