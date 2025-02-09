@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   isLoading: false,
-  productList: [],
+  productList : [],
 };
 
 export const createProduct = createAsyncThunk(
@@ -83,12 +83,12 @@ const productSlice = createSlice({
       .addCase(getProducts.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createProduct.fulfilled, (state, action) => {
-        console.log(action.payload)
+      .addCase(getProducts.fulfilled, (state, action) => {
+        console.log("this is in product slice",action.payload)
         state.isLoading = false;
-        state.productList = action.payload;
+        state.productList = action.payload.data;
       })
-      .addCase(createProduct.rejected, (state, action) => {
+      .addCase(getProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.productList = [],
         state.error = action.payload; // This contains the error message

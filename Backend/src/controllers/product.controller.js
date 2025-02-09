@@ -33,7 +33,7 @@ export const addProduct = async (req, res) => {
       !description ||
       !category ||
       !brand ||
-      !price ||
+      !price || 
       !salesPrice ||
       !totalStock
     ) {

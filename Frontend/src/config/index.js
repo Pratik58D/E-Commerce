@@ -106,7 +106,14 @@ export const addProductsFormElements = [
     name: "price",
     componentType: "input",
     type: "number",
-    placeHolder: "Enter the Price of Product",
+    placeHolder: "0",
+  },
+  {
+    label: "SalesPrice",
+    name: "salesPrice",
+    componentType: "input",
+    type: "number",
+    placeHolder: "0",
   },
   {
     label: "Total Stock",
