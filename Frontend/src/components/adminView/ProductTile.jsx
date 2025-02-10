@@ -7,6 +7,7 @@ const ProductTile = ({
   setCurrentEditedId,
   setOpenCreateProductDialog,
   setFormData,
+  handleDelete
 }) => {
   return (
     <Card className="w-full max-w-sm mx-auto ">
@@ -15,7 +16,7 @@ const ProductTile = ({
           <img
             src={product?.image}
             alt={product?.title}
-            className="w-full h-[3000] object-cover rounded-t-lg"
+            className="w-full h-52 object-cover rounded-t-lg"
           />
         </div>
         <CardContent>
@@ -53,7 +54,7 @@ const ProductTile = ({
           >
             Edit
           </Button>
-          <Button>Delete</Button>
+          <Button onClick ={()=>handleDelete(product?._id)}>Delete</Button>
         </CardFooter>
       </div>
     </Card>

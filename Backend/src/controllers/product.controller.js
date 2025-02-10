@@ -34,7 +34,6 @@ export const addProduct = async (req, res) => {
       !category ||
       !brand ||
       !price || 
-      !salesPrice ||
       !totalStock
     ) {
       return res
@@ -91,7 +90,7 @@ export const editProduct = async (req, res) => {
       totalStock,
     } = req.body;
 
-    const findProduct = await Product.findOne(id);
+    let findProduct = await Product.findById(id);
     if (!findProduct) {
       res.status(404).json({ success: false, message: "product not found" });
     }
@@ -99,12 +98,12 @@ export const editProduct = async (req, res) => {
     findProduct.description = description || findProduct.description;
     findProduct.category = category || findProduct.category;
     findProduct.brand = brand || findProduct.brand;
-    findProduct.price = price || findProduct.price;
-    findProduct.salesPrice = salesPrice || findProduct.salesPrice;
+    findProduct.price = price==="" ? 0 : price || findProduct.price;
+    findProduct.salesPrice = salesPrice === "" ? 0 : salesPrice || findProduct.salesPrice;
     findProduct.totalStock = totalStock || findProduct.totalStock;
     findProduct.image = image || findProduct.image;
     await findProduct.save();
-    res.status(200).json({ success: true, data: findProduct });
+    res.status(200).json({ success: true, message:"Product Updated",data: findProduct });
   } catch (error) {
     console.log("error in editProduct", error.message);
     res.status(500).json({ sucess: false, message: "Server error" });
@@ -114,7 +113,7 @@ export const editProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const {id}= req.params;
-    const deletedProduct = await Product.findOneAndDelete(id);
+    const deletedProduct = await Product.findByIdAndDelete(id);
     if(!deletedProduct){
       return res.status(404).json({success:false , message : "product not found"});
     }

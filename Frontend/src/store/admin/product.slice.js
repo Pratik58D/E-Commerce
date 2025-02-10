@@ -15,7 +15,7 @@ export const createProduct = createAsyncThunk(
         formData,
         {
           headers: {
-            "Content-Type": "Application/json",
+            "Content-Type": "application/json",
           },
         }
       );
@@ -49,7 +49,7 @@ export const editProduct = createAsyncThunk(
         formData,
         {
           headers: {
-            "Content-Type": "Application/json",
+            "Content-Type": "application/json",
           },
         }
       );
