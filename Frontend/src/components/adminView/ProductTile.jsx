@@ -16,7 +16,7 @@ const ProductTile = ({
           <img
             src={product?.image}
             alt={product?.title}
-            className="w-full h-52 object-cover rounded-t-lg"
+            className="w-full h-32 sm:h-48 md:h-60 lg:h-72 xl:h-80 object-contain rounded-t-lg"
           />
         </div>
         <CardContent>

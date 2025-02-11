@@ -60,6 +60,24 @@ export const checkAuth = createAsyncThunk(
     }
   }
 );
+export const logOut = createAsyncThunk(
+  "/auth/logout",
+  async (_, { rejectWithValue }) => {
+    // Ensure the first parameter is an underscore if unused
+    try {
+      const response = await axios.post(
+        "http://localhost:7000/api/auth/logout",{},
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data); //Automatically handled in "rejected"
+    }
+  }
+);
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -90,7 +108,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        // console.log(action);
+        
         state.user = action.payload.success ? action.payload.user : null;
         state.isAuth = action.payload.success ? true : false;
       })
@@ -115,6 +133,22 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuth = false;
         (state.user = null), (state.error = action.payload); // This contains the error message
+      });
+      builder
+      .addCase(logOut.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logOut.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+        state.user = action.payload.success ? action.payload.user : null;
+        state.isAuth = action.payload.success ? false : true;
+      })
+      .addCase(logOut.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuth = false;
+        state.user = null, 
+        state.error = action.payload; // This contains the error message
       });
   },
 });

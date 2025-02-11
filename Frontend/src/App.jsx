@@ -28,6 +28,7 @@ const App = () => {
   const { isAuth, user, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
