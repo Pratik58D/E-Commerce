@@ -124,35 +124,61 @@ export const addProductsFormElements = [
   },
 ];
 
-
-export const shoppingViewHeaderMenuItems =[
+export const shoppingViewHeaderMenuItems = [
   {
     id: "home",
-    label : "Home",
-    path :"/shop/home"
+    label: "Home",
+    path: "/shop/home",
   },
   {
     id: "men",
-    label : "Men",
-    path :"/shop/listing"
+    label: "Men",
+    path: "/shop/listing",
   },
   {
     id: "women",
-    label : "Women",
-    path :"/shop/listing"
-  }, {
+    label: "Women",
+    path: "/shop/listing",
+  },
+  {
     id: "kids",
-    label : "Kids",
-    path :"/shop/listing"
-  }, {
+    label: "Kids",
+    path: "/shop/listing",
+  },
+  {
     id: "accessories",
-    label : "Accessories",
-    path :"/shop/listing"
+    label: "Accessories",
+    path: "/shop/listing",
   },
   {
     id: "footwear",
-    label : "footwear",
-    path :"/shop/listing"
+    label: "footwear",
+    path: "/shop/listing",
   },
+];
 
-]
+//used in product filtering
+export const filterOption = {
+  Category: [
+    { id: "men", label: "Men" },
+    { id: "women", label: "Women" },
+    { id: "kids", label: "Kids" },
+    { id: "accessories", label: "Accessories" },
+    { id: "footwear", label: "Footwear" },
+  ],
+  Brand: [
+    { id: "nike", label: "Nike" },
+    { id: "adidas", label: "Adidas" },
+    { id: "puma", label: "Puma" },
+    { id: "reebok", label: "Reebok" },
+    { id: "zara", label: "Zara" },
+    { id: "goldStar", label: "goldStar" },
+  ],
+};
+
+export const sortOptions = [
+  { id: "price-low-high", label: "Low To High" },
+  { id: "price-high-low", label: "high To High" },
+  { id: "a-z", label: "A-Z" },
+  { id: "z-a", label: "z-a" },
+];

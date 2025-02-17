@@ -1,17 +1,13 @@
-import { Home, LucideShoppingCart, Menu } from "lucide-react";
+import { Home, LogOutIcon, LucideShoppingCart, Menu, UserCog2 } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { shoppingViewHeaderMenuItems } from "@/config";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarFallback } from "../ui/avatar";
-import { DropdownMenuContent, DropdownMenuLabel } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {logOut} from "@/store/auth-slice/index"
 
 function MenuItems() {
   return (
@@ -32,6 +28,12 @@ function MenuItems() {
 
 function HeaderRightContent() {
   const {user} = useSelector(state =>state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+
+  function logOutUser (){
+    dispatch(logOut())
+  }
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
@@ -49,8 +51,21 @@ function HeaderRightContent() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" className="w-56">
-          <DropdownMenuLabel>logged in as</DropdownMenuLabel>
+          <DropdownMenuLabel>logged in as {user?.userName}</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick = {()=>navigate("/shop/account")} >
+            <UserCog2 className="mr-2 h-4 w-4"/>
+            Account
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={logOutUser}>
+          <LogOutIcon className="mr-2 h-4 w-4" />
+          LogOut
+          </DropdownMenuItem>
+            
+        
+
         </DropdownMenuContent>
+      
       </DropdownMenu>
     </div>
   );
@@ -75,17 +90,18 @@ const ShopHeader = () => {
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs">
             <MenuItems />
+            <HeaderRightContent />
           </SheetContent>
         </Sheet>
         <div className="hidden lg:block">
           <MenuItems />
         </div>
 
-        {isAuth ? (
-          <div>
-            <HeaderRightContent />
+     
+          <div className="hidden lg:block">
+            <HeaderRightContent  />
           </div>
-        ) : null}
+        
       </div>
     </header>
   );
