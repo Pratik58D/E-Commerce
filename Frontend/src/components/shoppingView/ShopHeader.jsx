@@ -16,10 +16,10 @@ function MenuItems() {
         <Link
           key={menuItem.id}
           to={menuItem.path}
-          className="text-sm font-medium capitalize"
-        >
-          {" "}
-          {menuItem.label}
+          className="text-sm font-medium  capitalize hover:text-slate-500"
+        > 
+      
+          {menuItem.label}       
         </Link>
       ))}
     </nav>

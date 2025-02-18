@@ -1,10 +1,10 @@
 import { filterOption } from "@/config";
-import React from "react";
+import React, { Fragment } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 
-const ProductFilter = () => {
+const ProductFilter = ({filers , handleFilter}) => {
   return (
     <div className="bg-background rounded-lg shadow-sm">
       <div className="p-4 border-b">
@@ -12,20 +12,20 @@ const ProductFilter = () => {
       </div>
       <div className="p-4 space-y-4">
         {Object.keys(filterOption).map((keyItem) => (
-            <>
-          <div>
+            <Fragment key={keyItem} >
+          <div >
             <h3 className="text-base font-semibold">{keyItem}</h3>
             <div className="grid gap-2 mt-2">
               {filterOption[keyItem].map((option) => (
-                <Label className="flex items-center gap-2 font-medium">
-                  <Checkbox />
+                <Label className="flex items-center gap-2 font-medium" key={option.id}>
+                  <Checkbox onCheckedChange = {()=> handleFilter(keyItem , option.id)} />
                   {option.label}
                 </Label>
               ))}
             </div>
           </div>
           <Separator />
-          </>
+          </Fragment>
           
         ))}
       </div>

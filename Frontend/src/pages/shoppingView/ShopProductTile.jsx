@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import { Card, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import React from "react";
 
 const ShopProductTile = ({ product }) => {
@@ -11,7 +12,7 @@ const ShopProductTile = ({ product }) => {
             <img
               src={product?.image}
               alt={product?.title}
-              className="w-full h-[300px] object-cover rounded-t-lg"
+              className="w-full h-52 object-cover rounded-t-lg"
             />
             {product?.salesPrice > 0 ? (
               <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-800">
@@ -20,12 +21,12 @@ const ShopProductTile = ({ product }) => {
             ) : null}
           </div>
           <CardContent className="p-4">
-            <h2 className="text-xl font-bold mb-2">{product?.title}</h2>
+            <h2 className="text-xl font-semibold text-center mb-2 capitalize ">{product?.title}</h2>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-muted-foreground ">
+              <span className="text-sm text-muted-foreground capitalize ">
                 {product?.category}
               </span>
-              <span className="text-sm text-muted-foreground ">
+              <span className="text-sm text-muted-foreground capitalize ">
                 {product?.brand}
               </span>
             </div>
