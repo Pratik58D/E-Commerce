@@ -76,6 +76,7 @@ export const login = async (req, res) => {
         id: matchedUser._id,
         role: matchedUser.role,
         email: matchedUser.email,
+        userName : matchedUser.userName
       },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
@@ -94,7 +95,8 @@ export const login = async (req, res) => {
         user :{
           email: matchedUser.email,
           role: matchedUser.role,
-          id: matchedUser._id
+          id: matchedUser._id,
+          userName : matchedUser.userName
         }
        });
   } catch (error) {

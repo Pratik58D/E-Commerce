@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import connectDb from "./src/config/db.js";
 import authRouter from "./src/routes/auth.route.js";
 import adminProductRouter from "./src/routes/product.route.js"
+import shopProductrouter from "./src/routes/shop/products.routes.js";
 
 const app= express()
 dotenv.config();
@@ -29,6 +30,7 @@ app.use(express.json());
 
 app.use("/api/auth",authRouter);
 app.use("/api/admin/product",adminProductRouter)
+app.use("/api/shop/product",shopProductrouter)
 
 
 app.listen(port , ()=>{
