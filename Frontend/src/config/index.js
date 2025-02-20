@@ -159,14 +159,14 @@ export const shoppingViewHeaderMenuItems = [
 
 //used in product filtering
 export const filterOption = {
-  Category: [
+  category: [
     { id: "men", label: "Men" },
     { id: "women", label: "Women" },
     { id: "kids", label: "Kids" },
     { id: "accessories", label: "Accessories" },
     { id: "footwear", label: "Footwear" },
   ],
-  Brand: [
+  brand: [
     { id: "nike", label: "Nike" },
     { id: "adidas", label: "Adidas" },
     { id: "puma", label: "Puma" },
@@ -178,7 +178,7 @@ export const filterOption = {
 
 export const sortOptions = [
   { id: "price-low-high", label: "Low To High" },
-  { id: "price-high-low", label: "high To High" },
+  { id: "price-high-low", label: "High To Low" },
   { id: "a-z", label: "A-Z" },
   { id: "z-a", label: "z-a" },
 ];
