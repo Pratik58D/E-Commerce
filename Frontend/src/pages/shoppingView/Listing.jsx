@@ -8,12 +8,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
-import { ArrowUpDownIcon } from "lucide-react";
+import { ArrowUpDownIcon, CloudDownload } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getShopProduct } from "@/store/shop/shopProduct.slice";
+import { getProductDetails, getShopProduct } from "@/store/shop/shopProduct.slice";
 import ShopProductTile from "./ShopProductTile";
 import {  useSearchParams } from "react-router-dom";
+import ProductDetailsDialog from "@/components/shoppingView/ProductDetails";
 
 function createSearchParamsHelper (filterParams){
   const queryParams = [];
@@ -31,10 +32,11 @@ function createSearchParamsHelper (filterParams){
 
 const Listing = () => {
   const dispatch = useDispatch();
-  const { productList, isLoading } = useSelector((state) => state.shopProducts);
+  const { productList, isLoading ,productDetails } = useSelector((state) => state.shopProducts);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
-  const [searchParams , setSearchParams] = useSearchParams()
+  const [searchParams , setSearchParams] = useSearchParams();
+  const [openDetailsDialog ,setOpenDetailsDialog] = useState(false);
 
   //sorting function
   function handleSorting(value) {
@@ -63,6 +65,15 @@ const Listing = () => {
   }
   // console.log("filters",filters);
 
+  function handleGetProductDetails(getCurrentProductId){
+    console.log(getCurrentProductId)
+    dispatch(getProductDetails(getCurrentProductId))
+
+  }
+  // console.log(productDetails)
+
+
+
   useEffect(()=>{
     setSort("price-low-high")
     setFilters(JSON.parse(sessionStorage.getItem("filters"))|| {})
@@ -76,13 +87,19 @@ const Listing = () => {
       setSearchParams(new URLSearchParams(createQueryString))
     }
   },[filters])
-  console.log(filters,searchParams)
+  // console.log(filters,searchParams)
 
   //fetching products here
   useEffect(() => {
     if(filters !== null && sort !== null)
     dispatch(getShopProduct({filterParams:filters , sortParams:sort}));
   }, [dispatch,sort,filters]);
+
+  useEffect(()=>{
+    if(productDetails !== null){
+      setOpenDetailsDialog(true)
+    }
+  },[productDetails])
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-4">
@@ -127,11 +144,12 @@ const Listing = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {productList
             ? productList.map((productItem,index) => (
-                <ShopProductTile product={productItem} key={index} />
+                <ShopProductTile product={productItem} key={index} handleGetProductDetails= {handleGetProductDetails}/>
               ))
             : null}
         </div>
       </div>
+      <ProductDetailsDialog productDetails={productDetails} open={openDetailsDialog} setOpen={setOpenDetailsDialog} />
     </div>
   );
 };
