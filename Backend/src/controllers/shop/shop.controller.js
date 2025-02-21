@@ -41,3 +41,24 @@ export const getFilterProducts = async (req, res) => {
     res.status(500).json({ sucess: false, message: "Server error" });
   }
 };
+
+export const getProductsDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: product,
+    });
+  } catch (error) {
+    console.log("error in get Product detail controller", error.message);
+    res.status(500).json({ sucess: false, message: "Server error" });
+  }
+};
