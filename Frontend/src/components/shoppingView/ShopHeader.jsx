@@ -8,6 +8,7 @@ import { shoppingViewHeaderMenuItems } from "@/config";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import {logOut} from "@/store/auth-slice/index"
+import UserCartWrapper from "./CartWrapper";
 
 function MenuItems() {
   return (
@@ -28,8 +29,10 @@ function MenuItems() {
 
 function HeaderRightContent() {
   const {user} = useSelector(state =>state.auth);
+  const[openCartSheet , setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
 
   function logOutUser (){
     dispatch(logOut())
@@ -37,10 +40,13 @@ function HeaderRightContent() {
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-      <Button variant="outline" size="icon">
+      <Sheet open ={openCartSheet} onOpenChange={()=>setOpenCartSheet(false)}  >
+      <Button onClick={()=>setOpenCartSheet(true)} variant="outline" size="icon">
         <LucideShoppingCart size={6} />
         <span className="sr-only">User Cart</span>
       </Button>
+      <UserCartWrapper />
+      </Sheet>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
