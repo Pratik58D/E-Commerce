@@ -44,7 +44,7 @@ const shopProductSlice = createSlice({
    builder.addCase(getProductDetails.pending,(state)=>{
       state.isLoading = true
   }).addCase(getProductDetails.fulfilled,(state,action)=>{
-    console.log(action.payload.data);
+    // console.log(action.payload.data);
       state.isLoading = false,
       state.productDetails = action.payload.data
   }).addCase(getProductDetails.rejected,(state,action)=>{

@@ -3,11 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import React from "react";
 
-const ShopProductTile = ({ product ,handleGetProductDetails }) => {
+const ShopProductTile = ({
+  product,
+  handleGetProductDetails,
+  handleAddtoCart,
+}) => {
   return (
     <div>
       <Card className="w-full max-w-sm mx-auto">
-        <div onClick={()=>handleGetProductDetails(product?._id)}>
+        <div onClick={() => handleGetProductDetails(product?._id)}>
           <div className="relative">
             <img
               src={product?.image}
@@ -21,7 +25,9 @@ const ShopProductTile = ({ product ,handleGetProductDetails }) => {
             ) : null}
           </div>
           <CardContent className="p-4">
-            <h2 className="text-xl font-semibold text-center mb-2 capitalize ">{product?.title}</h2>
+            <h2 className="text-xl font-semibold text-center mb-2 capitalize ">
+              {product?.title}
+            </h2>
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-muted-foreground capitalize ">
                 {product?.category}
@@ -45,10 +51,15 @@ const ShopProductTile = ({ product ,handleGetProductDetails }) => {
               ) : null}
             </div>
           </CardContent>
-          <CardFooter >
-            <Button className="w-full">Add to Cart</Button>
-          </CardFooter>
         </div>
+        <CardFooter>
+          <Button
+            onClick={() => handleAddtoCart(product?._id)}
+            className="w-full"
+          >
+            Add to Cart
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   );

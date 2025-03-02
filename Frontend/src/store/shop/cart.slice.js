@@ -43,7 +43,7 @@ export const updateCart = createAsyncThunk(
 export const deleteCartItem = createAsyncThunk(
   "cart/deleteCartItem",
   async ({ userId, productId }) => {
-    const result = await axios.post(
+    const result = await axios.delete(
       `http://localhost:7000/api/shop/cart/delete/${userId}/${productId}`
     );
     return result.data;
@@ -56,7 +56,7 @@ const shoppingCartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addToCart.pending ,(state)=>{
-        state.isLoading = truu;
+        state.isLoading = true;
     }).addCase(addToCart.fulfilled,(state,action)=>{
         state.isLoading = false;
         state.cartItems = action.payload.data;
@@ -67,13 +67,12 @@ const shoppingCartSlice = createSlice({
     })
     .addCase(fetchCardItems.pending ,(state)=>{
         state.isLoading = true;
-    }).addCase(fetchCardItems.fulfilled,(state,action)=>{
+    }).addCase(fetchCardItems.fulfilled,(state,action)=>{      
         state.isLoading = false;
-        state.cartItems = action.payload.data;
+        state.cartItems = action.payload.data
     }).addCase(fetchCardItems.rejected,(state)=>{
         state.isLoading = false;
         state.cartItems = []
-
     })
     .addCase(updateCart.pending ,(state)=>{
         state.isLoading = true;
