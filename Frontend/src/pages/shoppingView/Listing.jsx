@@ -16,7 +16,7 @@ import {
   getShopProduct,
 } from "@/store/shop/shopProduct.slice";
 import ShopProductTile from "./ShopProductTile";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom"
 import ProductDetailsDialog from "@/components/shoppingView/ProductDetails";
 import { addToCart, fetchCardItems } from "@/store/shop/cart.slice";
 import { toast } from "react-toastify";
@@ -36,15 +36,15 @@ function createSearchParamsHelper(filterParams) {
 
 const Listing = () => {
   const dispatch = useDispatch();
-  const { productList,  productDetails } = useSelector(
+  const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
+ 
   const { user } = useSelector((state) => state.auth);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
-  
 
   //sorting function
   function handleSorting(value) {
@@ -88,17 +88,13 @@ const Listing = () => {
         productId: getCurrentProductId,
         quantity: 1,
       })
-    ).then((data) =>{ 
-      if(data?.payload?.success){
-      dispatch(fetchCardItems(user?.id));
-      toast.success("Product added to the Cart")
-    };
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCardItems(user?.id));
+        toast.success("Product added to the Cart");
       }
-    )
+    });
   }
- 
-
-
 
   useEffect(() => {
     setSort("price-low-high");

@@ -6,30 +6,38 @@ import { deleteCartItem, updateCart } from "@/store/shop/cart.slice";
 import { toast } from "react-toastify";
 
 const UserCartItemContent = ({ cartItem }) => {
-  
-  const dispatch= useDispatch();
-  const {user} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
-  //hanle delete cart item   //cartitem in this component is cartItem.itemms in backend
-  function handleCartItemDelete(cartItem){
-    dispatch(deleteCartItem({userId: user?.id , productId :cartItem?.productId }))
+  //handle delete cart item   //cartitem in this component is cartItem.itemms in backend
+  function handleCartItemDelete(cartItem) {
+    dispatch(
+      deleteCartItem({ userId: user?.id, productId: cartItem?.productId })
+    ).then((data)=>{
+      if(data?.payload?.success){
+        toast.error("cart Item Deleted")
+      }
+    })
   }
-  function handleUpdateQuantity(cartItem,typeofupdate){
-    dispatch(updateCart({
-      userId : user?.id,
-      productId : cartItem?.productId,
-      quantity : typeofupdate === "add" ? cartItem?.quantity + 1 : cartItem?.quantity -1 
-    })).then(data=>{
-       if(data?.payload?.success){
 
-        toast.success("cart Item is updated successfully")
-
-
-       }
-      
+  //handles the update 
+  function handleUpdateQuantity(cartItem, typeofupdate) {
+    dispatch(
+      updateCart({
+        userId: user?.id,
+        productId: cartItem?.productId,
+        quantity:
+          typeofupdate === "add"
+            ? cartItem?.quantity + 1
+            : cartItem?.quantity - 1,
       })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        toast.success("cart Item is updated successfully");
+      }
+    });
   }
- 
+
   return (
     <div className="flex items-center space-x-4">
       <img
@@ -44,7 +52,8 @@ const UserCartItemContent = ({ cartItem }) => {
             variant="outline"
             size="icon"
             className="h-8 w-8 rounded-full"
-            onClick={()=> handleUpdateQuantity(cartItem,"minus")}
+            disabled = {cartItem ?.quantity == 1}
+            onClick={() => handleUpdateQuantity(cartItem, "minus")}
           >
             <Minus className="w-4 h-4" />
             <span className="sr-only">minus</span>
@@ -54,8 +63,7 @@ const UserCartItemContent = ({ cartItem }) => {
             variant="outline"
             size="icon"
             className="h-8 w-8 rounded-full"
-            onClick={()=> handleUpdateQuantity(cartItem,"add")}
-
+            onClick={() => handleUpdateQuantity(cartItem, "add")}
           >
             <Plus className="w-4 h-4" />
             <span className="sr-only">add</span>
@@ -70,9 +78,11 @@ const UserCartItemContent = ({ cartItem }) => {
             cartItem?.quantity
           ).toFixed(2)}
         </p>
-        <Trash 
-        onClick={()=>handleCartItemDelete(cartItem)}
-        className="cursor-pointer mt-1" size={20} />
+        <Trash
+          onClick={() => handleCartItemDelete(cartItem)}
+          className="cursor-pointer mt-1"
+          size={20}
+        />
       </div>
     </div>
   );

@@ -1,17 +1,47 @@
 import React from "react";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarFallback } from "../ui/avatar";
+import { Avatar ,AvatarFallback } from "../ui/avatar";
 import { StarIcon } from "lucide-react";
 import { Input } from "../ui/input";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, fetchCardItems } from "@/store/shop/cart.slice";
+import { toast } from "react-toastify";
+import { setProductDetails } from "@/store/shop/shopProduct.slice";
 
 const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  function handleAddtoCart(getCurrentProductId) {
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCardItems(user?.id));
+        toast.success("Product added to the Cart");
+      }
+    });
+  }
+
+  //handling dialog box so that it doesnot open from other route
+  function handleDialogClose() {
+    setOpen(false);
+    dispatch(setProductDetails());
+  }
+
   return (
     <div>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
+      <Dialog open={open} onOpenChange={handleDialogClose}>
+        <DialogContent
+         className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
+          <DialogTitle className="sr-only">Product Details</DialogTitle>{" "}
+          {/* Hidden for screen readers */}
           <div className="relative overflow-hidden rounded-lg">
             <img
               src={productDetails?.image}
@@ -58,7 +88,12 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
             </div>
 
             <div className="mt-4 mb-4">
-              <Button className="w-full">Add to Cart</Button>
+              <Button
+                onClick={() => handleAddtoCart(productDetails?._id)}
+                className="w-full"
+              >
+                Add to Cart
+              </Button>
             </div>
             <Separator />
             <div className="max-h-[300px] overflow-auto">
@@ -84,8 +119,6 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
                       This is awesome Product
                     </p>
                   </div>
-
-                  
                 </div>
                 <div className="flex gap-4">
                   <Avatar className="w-10 h-10 border-2 rounded-full ">
@@ -107,8 +140,6 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
                       This is awesome Product
                     </p>
                   </div>
-
-                  
                 </div>
                 <div className="flex gap-4">
                   <Avatar className="w-10 h-10 border-2 rounded-full ">
@@ -130,8 +161,6 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
                       This is awesome Product
                     </p>
                   </div>
-
-                  
                 </div>
                 <div className="flex gap-4">
                   <Avatar className="w-10 h-10 border-2 rounded-full ">
@@ -153,13 +182,11 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
                       This is awesome Product
                     </p>
                   </div>
-
-                  
                 </div>
               </div>
 
               <div className="mt-6 flex gap-2">
-                <Input placeholder= "write a review...."/>
+                <Input placeholder="write a review...." />
                 <Button>Submit</Button>
               </div>
             </div>
