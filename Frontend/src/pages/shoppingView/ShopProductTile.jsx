@@ -19,7 +19,8 @@ const ShopProductTile = ({
               className="w-full h-52 object-cover rounded-t-lg"
             />
             {product?.salesPrice > 0 ? (
-              <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-800">
+              <Badge 
+              className="absolute top-2 left-2 bg-red-500 hover:bg-red-800">
                 Sale
               </Badge>
             ) : null}
