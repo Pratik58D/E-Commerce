@@ -111,7 +111,7 @@ const Home = () => {
         </div>
 
         {/* Content Container */}
-        <div className="absolute top-1/4 left-20 z-10 container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between">
+        <div className="absolute top-1/4 md:left-20 z-10 container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between">
           {/* slider */}
           {/* Text Content */}
           <div className="text-center lg:text-left lg:w-1/3 ">
