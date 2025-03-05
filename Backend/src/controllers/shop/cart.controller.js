@@ -182,7 +182,7 @@ export const deleteCartItem = async (req, res) => {
     );
     await cart.save();
 
-    await Cart.populate({
+    await cart.populate({
       path: "items.productId",
       select: "image title price salesPrice",
     });
@@ -203,8 +203,8 @@ export const deleteCartItem = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log("error in addtocart Controller", error.message);
-    res.satus(500).json({
+    console.log("error in delete Cart Controller", error.message);
+    res.status(500).json({
       success: false,
       message: "server error",
     });
