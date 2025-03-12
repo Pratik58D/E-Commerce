@@ -1,8 +1,8 @@
 import React from "react";
 import accImage from "../../assets/account.avif";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Orders from "@/components/shoppingView/Orders";
 import Address from "@/components/shoppingView/Address";
+import ShoppingOrders from "@/components/shoppingView/Orders";
 
 const Account = () => {
   return (
@@ -24,7 +24,7 @@ const Account = () => {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="orders">
-              <Orders />
+              <ShoppingOrders />
             </TabsContent>
             <TabsContent value="address">
               <Address />

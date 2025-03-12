@@ -32,7 +32,7 @@ export const editAddress = createAsyncThunk(
   async ({ userId, addressId, formData }) => {
     const result = await axios.put(
       `http://localhost:7000/api/shop/address/edit/${userId}/${addressId}`,
-      { formData}
+      formData
     );
     return result?.data;
   }
@@ -81,7 +81,7 @@ const shopAddressSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(editAddress.fulfilled, (state, action) => {
-        console.log("address info: ", action.payload.data);
+        // console.log("address info: ", action.payload.data);
         state.isLoading = false;
         state.addressList = action.payload.data;
       })
