@@ -20,6 +20,36 @@ const Checkout = () => {
         )
       : 0;
 
+      const handlePayment= (e)=>{
+        e.preventDefault();
+        const paymentData = {
+          amt: totalCartAmount, // Total amount from cart
+          psc: 0, // Service charge
+          pdc: 0, // Delivery charge
+          txAmt: 0, // Tax amount
+          tAmt: totalCartAmount, // Total payable amount
+          pid: `ORDER_${Date.now()}`, // Unique transaction ID
+          scd: "EPAYTEST", // eSewa Merchant Code (Test)
+          su: "http://localhost:7000/api/esewa/payment-success", // Success URL (Backend)
+          fu: "http://localhost:5000/api/esewa/payment-failure", // Failure URL (Backend)
+      }
+
+      // Create form and submit it to eSewa
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+
+    Object.keys(paymentData).forEach((key) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = paymentData[key];
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+  };
+
   return (
     <div className="flex flex-col">
       <div className="relative h-[300px] w-full overflow-hidden">
@@ -41,7 +71,9 @@ const Checkout = () => {
             </div>
           </div>
           <div className="mt-4 w-full">
-            <Button className="bg-green-500 hover:bg-green-800 w-full">Checkout with Esewa</Button>
+            <Button 
+            onClick = {handlePayment}
+            className="bg-green-500 hover:bg-green-800 w-full">Checkout with Esewa</Button>
           </div>
         </div>
       </div>

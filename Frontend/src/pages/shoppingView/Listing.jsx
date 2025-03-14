@@ -45,6 +45,7 @@ const Listing = () => {
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const categorySearchParam = searchParams.get("category")
 
   //sorting function
   function handleSorting(value) {
@@ -99,7 +100,7 @@ const Listing = () => {
   useEffect(() => {
     setSort("price-low-high");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
-  }, []);
+  }, [categorySearchParam]);
 
   //when filters updates useEfect executed
   useEffect(() => {
